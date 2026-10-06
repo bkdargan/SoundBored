@@ -2,68 +2,117 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AudioSite</title>
-  <link rel="stylesheet" href="style.css">
+  <title>SoundBored</title>
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #layout {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    #channelList {
+      width: 250px;
+      text-align: left;
+    }
+
+    #channelList button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      background: #333;
+      color: #eee;
+      border: 1px solid #555;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    #channelList button:hover {
+      background: #444;
+    }
+
+    #contentArea {
+      flex: 1;
+      max-width: 700px;
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      color: #eee;
+      min-height: 300px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Old Time Radio</h1>
+
+  <h1>SoundBored</h1>
   <h2>Select a channel</h2>
-<div id="playerArea" style="margin-top:40px; text-align:center; color:#eee;">
-  <!-- Audio will load here -->
-</div>
-<ul class="channels">
-<li><button onclick="loadChannel('relaxing-1940s-classics-1940s-big-band-swing-nostalgic-music-vintage-vibes_202508')">
-  Relaxing 1940s Classics
-</button></li>
 
-<li><button onclick="loadChannel('1940s-big-band-jazz-smooth-vintage')">
-  1940s Big Band Jazz & Smooth Vintage
-</button></li>
+  <div id="layout">
 
-<li><button onclick="loadChannel('legendary-melodies-from-old-clubs-in-the-1940s-swing-jazz-1940s-swing-jazz-and-smooth-jazz')">
-  Legendary Melodies From Old Clubs (1940s)
-</button></li>
+    <div id="channelList">
+      <button onclick="loadChannel('relaxing-1940s-classics-1940s-big-band-swing-nostalgic-music-vintage-vibes_202508')">
+        Relaxing 1940s Classics
+      </button>
 
-</ul>
+      <button onclick="loadChannel('1940s-big-band-jazz-smooth-vintage')">
+        1940s Big Band Jazz & Smooth Vintage
+      </button>
 
-<script>
-async function loadChannel(identifier) {
-  const playerArea = document.getElementById("playerArea");
-  playerArea.innerHTML = "<h2>Loading…</h2>";
+      <button onclick="loadChannel('legendary-melodies-from-old-clubs-in-the-1940s-swing-jazz-1940s-swing-jazz-and-smooth-jazz')">
+        Legendary Melodies From Old Clubs
+      </button>
+    </div>
 
-  const url = `https://archive.org/metadata/${identifier}`;
-  const response = await fetch(url);
-  const data = await response.json();
+    <div id="contentArea">
+      <p>Select a channel to begin listening.</p>
+    </div>
 
-  const files = data.files.filter(f => f.name.endsWith(".mp3"));
+  </div>
 
-  let html = `<h2>${data.metadata.title || identifier}</h2>`;
+  <script>
+    async function loadChannel(identifier) {
+      const contentArea = document.getElementById("contentArea");
+      contentArea.innerHTML = "<h2>Loading…</h2>";
 
-  files.forEach((file, index) => {
-    const mp3 = `https://archive.org/download/${identifier}/${file.name}`;
-    html += `
-      <div style="margin:20px auto; width:80%; background:#222; padding:20px; border-radius:10px;">
-        <strong>${file.name}</strong>
-        <audio id="audio${index}" controls style="width:100%; margin-top:10px;">
-          <source src="${mp3}" type="audio/mpeg">
-        </audio>
-      </div>
-    `;
-  });
+      const url = `https://archive.org/metadata/${identifier}`;
+      const response = await fetch(url);
+      const data = await response.json();
 
-  playerArea.innerHTML = html;
+      const files = data.files.filter(f => f.name.endsWith(".mp3"));
 
-  // ⭐ Auto-play the first episode
-  const firstAudio = document.getElementById("audio0");
-  if (firstAudio) {
-    firstAudio.play().catch(() => {
-      console.log("Autoplay blocked, user interaction required.");
-    });
-  }
-}
-</script>
+      let html = `<h2>${data.metadata.title || identifier}</h2>`;
 
+      files.forEach((file, index) => {
+        const mp3 = `https://archive.org/download/${identifier}/${file.name}`;
+        html += `
+          <div style="margin:20px 0;">
+            <strong>${file.name}</strong>
+            <audio id="audio${index}" controls style="width:100%; margin-top:10px;">
+              <source src="${mp3}" type="audio/mpeg">
+            </audio>
+          </div>
+        `;
+      });
 
+      contentArea.innerHTML = html;
+
+      // Auto-play first track
+      const firstAudio = document.getElementById("audio0");
+      if (firstAudio) {
+        firstAudio.play().catch(() => {});
+      }
+    }
+  </script>
 
 </body>
 </html>
