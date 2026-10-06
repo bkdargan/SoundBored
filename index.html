@@ -8,17 +8,43 @@
 <body>
   <h1>Old Time Radio</h1>
   <h2>Select a channel</h2>
+<div id="playerArea" style="margin-top:40px; text-align:center; color:#eee;">
+  <!-- Episodes will load here -->
+</div>
 
-  <ul class="channels">
-    <li><a href="future.html">Future</a></li>
-    <li><a href="action.html">Action</a></li>
-    <li><a href="crime.html">Crime</a></li>
-    <li><a href="horror.html">Horror</a></li>
-    <li><a href="suspense.html">Suspense</a></li>
-    <li><a href="western.html">Western</a></li>
-    <li><a href="comedy.html">Comedy</a></li>
-    <li><a href="drama.html">Drama</a></li>
-    <li><a href="sports.html">Sports</a></li>
-  </ul>
+<ul class="channels">
+  <li><button onclick="loadChannel('relaxing-1940s-classics-1940s-big-band-swing-nostalgic-music-vintage-vibes_202508')">1940s Classics</button></li>
+  <li><button onclick="loadChannel('Suspense_1942_Complete')">Suspense</button></li>
+  <li><button onclick="loadChannel('Dragnet_1950s')">Dragnet</button></li>
+</ul>
+<script>
+async function loadChannel(identifier) {
+  const playerArea = document.getElementById("playerArea");
+  playerArea.innerHTML = "<h2>Loading…</h2>";
+
+  const url = `https://archive.org/metadata/${identifier}`;
+  const response = await fetch(url);
+  const data = await response.json();
+
+  const files = data.files.filter(f => f.name.endsWith(".mp3"));
+
+  let html = `<h2>${data.metadata.title || identifier}</h2>`;
+
+  files.forEach(file => {
+    const mp3 = `https://archive.org/download/${identifier}/${file.name}`;
+    html += `
+      <div style="margin:20px auto; width:80%; background:#222; padding:20px; border-radius:10px;">
+        <strong>${file.name}</strong>
+        <audio controls style="width:100%; margin-top:10px;">
+          <source src="${mp3}" type="audio/mpeg">
+        </audio>
+      </div>
+    `;
+  });
+
+  playerArea.innerHTML = html;
+}
+</script>
+
 </body>
 </html>
