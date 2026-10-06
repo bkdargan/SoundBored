@@ -27,6 +27,7 @@
 </ul>
 <script>
 <script>
+<script>
 async function loadChannel(identifier) {
   const playerArea = document.getElementById("playerArea");
   playerArea.innerHTML = "<h2>Loading…</h2>";
@@ -39,12 +40,12 @@ async function loadChannel(identifier) {
 
   let html = `<h2>${data.metadata.title || identifier}</h2>`;
 
-  files.forEach(file => {
+  files.forEach((file, index) => {
     const mp3 = `https://archive.org/download/${identifier}/${file.name}`;
     html += `
       <div style="margin:20px auto; width:80%; background:#222; padding:20px; border-radius:10px;">
         <strong>${file.name}</strong>
-        <audio controls style="width:100%; margin-top:10px;">
+        <audio id="audio${index}" controls style="width:100%; margin-top:10px;">
           <source src="${mp3}" type="audio/mpeg">
         </audio>
       </div>
@@ -52,8 +53,17 @@ async function loadChannel(identifier) {
   });
 
   playerArea.innerHTML = html;
+
+  // ⭐ Auto-play the first episode
+  const firstAudio = document.getElementById("audio0");
+  if (firstAudio) {
+    firstAudio.play().catch(() => {
+      console.log("Autoplay blocked, user interaction required.");
+    });
+  }
 }
 </script>
+
 
 
 </body>
