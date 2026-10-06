@@ -6,6 +6,20 @@ body {
   padding: 40px;
 }
 
+.channels button {
+  background: #333;
+  color: #eee;
+  border: 1px solid #555;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.channels button:hover {
+  background: #444;
+}
+
 .channels {
   list-style: none;
   padding: 0;
