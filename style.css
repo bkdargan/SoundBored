@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #eee;
+  text-align: center;
+  padding: 40px;
+}
+
+.channels {
+  list-style: none;
+  padding: 0;
+}
+
+.channels li {
+  margin: 10px 0;
+}
+
+.channels a {
+  color: #4db8ff;
+  font-size: 1.4rem;
+  text-decoration: none;
+}
