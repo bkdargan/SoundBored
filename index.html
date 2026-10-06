@@ -9,14 +9,23 @@
   <h1>Old Time Radio</h1>
   <h2>Select a channel</h2>
 <div id="playerArea" style="margin-top:40px; text-align:center; color:#eee;">
-  <!-- Episodes will load here -->
+  <!-- Audio will load here -->
 </div>
-
 <ul class="channels">
-  <li><button onclick="loadChannel('relaxing-1940s-classics-1940s-big-band-swing-nostalgic-music-vintage-vibes_202508')">1940s Classics</button></li>
-  <li><button onclick="loadChannel('Suspense_1942_Complete')">Suspense</button></li>
-  <li><button onclick="loadChannel('Dragnet_1950s')">Dragnet</button></li>
+<li><button onclick="loadChannel('relaxing-1940s-classics-1940s-big-band-swing-nostalgic-music-vintage-vibes_202508')">
+  Relaxing 1940s Classics
+</button></li>
+
+<li><button onclick="loadChannel('1940s-big-band-jazz-smooth-vintage')">
+  1940s Big Band Jazz & Smooth Vintage
+</button></li>
+
+<li><button onclick="loadChannel('legendary-melodies-from-old-clubs-in-the-1940s-swing-jazz-1940s-swing-jazz-and-smooth-jazz')">
+  Legendary Melodies From Old Clubs (1940s)
+</button></li>
+
 </ul>
+<script>
 <script>
 async function loadChannel(identifier) {
   const playerArea = document.getElementById("playerArea");
@@ -45,6 +54,7 @@ async function loadChannel(identifier) {
   playerArea.innerHTML = html;
 }
 </script>
+
 
 </body>
 </html>
